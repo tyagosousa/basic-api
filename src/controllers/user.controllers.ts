@@ -1,13 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { getFirestore } from 'firebase-admin/firestore' 
-import { ValidationError } from '../errors/validation.error';
 import { NotFound } from '../errors/notFound-error';
-
-type User = {
-    id: Number,
-  name: string;
-  email: string;
-}
+import { User } from '../models/user.model';
 
 export class UsersController{
 
@@ -36,19 +30,16 @@ export class UsersController{
     }
 
     static async create(req: Request, res: Response, next: NextFunction){
-        const user: User = req.body;
-            if(!user.email || user.email.length === 0 || !user.name || user.name.length === 0){
-                throw new ValidationError('All camps are requerid')
-            }
-            const userCreated = await getFirestore().collection('users').add(user)
-            res.status(201).send({       
-                message:`${userCreated.id} was created!`
-            });
+        const user = req.body;          
+        const userCreated = await getFirestore().collection('users').add(user)
+        res.status(201).send({       
+            message:`${userCreated.id} was created!`
+        });
     }
 
     static async update(req: Request, res: Response, next: NextFunction){
         let userId = req.params.id
-        let user: User = req.body
+        let user = req.body as User
         let docRef = await getFirestore().collection('users').doc(userId)
         if((await docRef.get()).exists){
             await docRef.set({

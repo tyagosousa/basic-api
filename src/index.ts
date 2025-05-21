@@ -9,6 +9,7 @@ initializeApp()
 const app = express()
 
 routes(app)
+
 pageNotFoundHandler(app)
 errorHandler(app)
 
