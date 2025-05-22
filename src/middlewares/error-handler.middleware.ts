@@ -5,7 +5,9 @@ import { NotFound } from '../errors/notFound-error'
 import { errors } from 'celebrate'
 
 export const errorHandler = (app: express.Express) => {
+    
     app.use(errors())
+
     app.use((error: Error, req: Request, res: Response, next: NextFunction)=>{
 
         if(error instanceof ValidationError){

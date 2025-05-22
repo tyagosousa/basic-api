@@ -1,29 +1,26 @@
 import { getFirestore } from "firebase-admin/firestore";
 import { User } from "../models/user.model";
+import { UserRepository } from "../repository/user.repository";
 import { NotFound } from "../errors/notFound-error";
 
 export class UserService{
 
+    private userRepository: UserRepository
+
+    constructor(){
+        this.userRepository = new UserRepository()
+    }
+
     async getAll(): Promise<User[]>{
-         const snapshot = await getFirestore().collection('users').get()
-                return snapshot.docs.map(doc => {
-                    return {
-                        id: doc.id,
-                        ...doc.data()
-                    } 
-                }) as User[]
-            }
+            return this.userRepository.getAll()
+        }
 
     async getOne(id: string): Promise<User>{
-         const doc = await getFirestore().collection('users').doc(id).get()
-         if(doc.exists){
-                return {
-                id: doc.id,
-                ... doc.data()
-            } as User
-         }else{
-            throw new NotFound('Usuário não identificado')
-         }
+        const user = await this.userRepository.getOne(id)
+        if(!user){
+            throw new NotFound('user is not identified')   
+        }
+        return user
     }
 
     async create(user: User){
@@ -31,24 +28,24 @@ export class UserService{
     }
 
     async update(id: string, user: User){
-        let docRef = getFirestore().collection('users').doc(id)
-        if((await docRef.get()).exists){
-            await docRef.set({
-                name: user.name,
-                email: user.email
-            })
-            }else{
-                throw new NotFound('O usuário não foi encontrado')
-            }
+
+        const _user = await this.userRepository.getOne(id)
+        if(!_user){
+            throw new NotFound('users is not identified')
+        }
+
+        _user.name = user.name
+        _user.email = user.email
+
+        this.userRepository.update(_user)
     }
 
     async delete(id: string){
-        let docRef = getFirestore().collection('users').doc(id)
-        if((await docRef.get()).exists){
-            await getFirestore().collection('users').doc(id).delete()
-        }else{
-            throw new NotFound('O usuário não foi encontrado')
+        const _user = await this.userRepository.getOne(id)
+        if(!_user){
+            throw new NotFound('users is not identified')
         }
+       return this.userRepository.delete(id)
     }
 
 

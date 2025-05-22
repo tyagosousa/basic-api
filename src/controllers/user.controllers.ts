@@ -5,7 +5,7 @@ import { UserService } from '../services/user.service';
 export class UsersController{
 
     static async getAll(req: Request, res: Response, next: NextFunction){
-            res.status(200).send(await new UserService().getAll())
+        res.status(200).send(await new UserService().getAll())
     }
 
     static async getOne(req: Request, res: Response, next: NextFunction){
@@ -18,9 +18,7 @@ export class UsersController{
     }
 
     static async update(req: Request, res: Response, next: NextFunction){
-        let userId = req.params.id
-        let user = req.body as User
-        await new UserService().update(userId, user)
+        await new UserService().update(req.params.id, req.body as User)
         res.status(200).send({message: 'user updated with sucess'})
     }
 

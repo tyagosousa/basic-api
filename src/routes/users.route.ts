@@ -8,7 +8,7 @@ export const userRoutes = express.Router()
 userRoutes.use(express.json())
 
 userRoutes.get('/users', asyncHandler(UsersController.getAll))
-userRoutes.get('/users/:id', asyncHandler(UsersController.getOne))
+userRoutes.get('/user/:id', asyncHandler(UsersController.getOne))
 userRoutes.post('/users', celebrate({[Segments.BODY]: userSchema}), asyncHandler(UsersController.create))
 userRoutes.put('/users/:id', celebrate({[Segments.BODY]: userSchema}), asyncHandler(UsersController.update))
 userRoutes.delete('/users/:id', asyncHandler(UsersController.delete))
