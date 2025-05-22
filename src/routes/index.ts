@@ -1,7 +1,7 @@
-import express from 'express'
-import { userRoutes } from './users.route'
+import express from "express";
+import { userRoutes } from "./users.route";
 
 export const routes = (app: express.Express) => {
-    userRoutes.use(express.json())
-    app.use(userRoutes)
-}
+  userRoutes.use(express.json());
+  app.use(userRoutes);
+};

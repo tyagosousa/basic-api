@@ -8,7 +8,7 @@ export class UsersController {
   }
 
   static async getOne(req: Request, res: Response, next: NextFunction) {
-    await new UserService().getOne(req.params.id);
+    res.status(200).send(await new UserService().getOne(req.params.id));
   }
 
   static async create(req: Request, res: Response, next: NextFunction) {
