@@ -3,6 +3,6 @@ import { NotFound } from "../errors/notFound-error";
 
 export const pageNotFoundHandler = (app: express.Express) => {
   app.use((req: Request, res: Response, next: NextFunction) => {
-    next(new NotFound("Página não encontrada"));
+    next(new NotFound("page not found"));
   });
 };

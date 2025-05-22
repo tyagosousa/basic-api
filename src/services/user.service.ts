@@ -17,7 +17,7 @@ export class UserService {
   async getOne(id: string): Promise<User> {
     const user = await this.userRepository.getOne(id);
     if (!user) {
-      throw new NotFound("user is not identified");
+      throw new NotFound("user not found");
     }
     return user;
   }
@@ -29,7 +29,7 @@ export class UserService {
   async update(id: string, user: User) {
     const _user = await this.userRepository.getOne(id);
     if (!_user) {
-      throw new NotFound("users is not identified");
+      throw new NotFound("user not found");
     }
 
     _user.name = user.name;
@@ -41,7 +41,7 @@ export class UserService {
   async delete(id: string) {
     const _user = await this.userRepository.getOne(id);
     if (!_user) {
-      throw new NotFound("users is not identified");
+      throw new NotFound("user not found");
     }
     return this.userRepository.delete(id);
   }
