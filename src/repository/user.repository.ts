@@ -1,6 +1,6 @@
 import { CollectionReference, getFirestore } from "firebase-admin/firestore"
 import { User } from "../models/user.model"
-//import { NotFound } from "../errors/notFound-error"
+import { NotFound } from "../errors/notFound-error"
 
 export class UserRepository{
 
